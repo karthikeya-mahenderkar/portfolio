@@ -195,9 +195,12 @@
   }
 }
 
-@keyframes marquee {
-  to {
-    transform: translateX(-50%);
+@keyframes scroll-cue {
+  0% {
+    transform: translateY(-100%);
+  }
+  100% {
+    transform: translateY(200%);
   }
 }
 

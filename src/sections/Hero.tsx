@@ -5,19 +5,8 @@ import { LinkButton } from '@/components/Button'
 import { GithubIcon, LinkedinIcon } from '@/components/BrandIcons'
 import { MeshCanvas } from '@/components/MeshCanvas'
 import { Magnetic, SplitText } from '@/components/motion'
-
-const concepts = [
-  'Pessimistic locking',
-  'Idempotent settlement',
-  'AES-256-GCM',
-  'Server-Sent Events',
-  'JWT · Keycloak RBAC',
-  'Gossip mesh routing',
-  'Event-bus architecture',
-  'Optimistic locking',
-  'Zod data contracts',
-  'Transactional inventory',
-]
+import { useScrolled } from '@/hooks/useScrolled'
+import { cn } from '@/lib/cn'
 
 const iconBtn =
   'grid size-11 place-items-center rounded-full border border-line text-muted transition-colors hover:border-line-strong hover:text-fg'
@@ -67,6 +56,7 @@ function NowCard() {
 
 export function Hero() {
   const reduce = useReducedMotion()
+  const scrolled = useScrolled(40)
 
   const ease = [0.22, 1, 0.36, 1] as const
   const rise = (delay: number) => ({
@@ -163,27 +153,20 @@ export function Hero() {
         </div>
       </div>
 
-      {/* Concept ticker */}
-      <motion.div
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ delay: 0.7, duration: 1 }}
-        className="relative z-10 border-y border-line bg-bg/60 py-4 backdrop-blur-sm"
+      {/* Scroll cue — laptop/desktop only (on phones the hero runs past the fold); hides once scrolling starts */}
+      <a
+        href="#about"
+        aria-label="Scroll to About"
+        className={cn(
+          'absolute bottom-7 left-1/2 z-10 hidden -translate-x-1/2 flex-col items-center gap-3 text-subtle transition-[opacity,color] duration-500 hover:text-fg lg:flex [@media(max-height:720px)]:!hidden',
+          scrolled && 'pointer-events-none opacity-0',
+        )}
       >
-        <div className="flex overflow-hidden [mask-image:linear-gradient(to_right,transparent,black_10%,black_90%,transparent)]">
-          <ul
-            className="flex shrink-0 items-center gap-10 pr-10 font-mono text-xs tracking-wide whitespace-nowrap text-subtle uppercase [animation:marquee_40s_linear_infinite] motion-reduce:[animation:none]"
-            aria-label="Engineering concepts used across my projects"
-          >
-            {[...concepts, ...concepts].map((c, i) => (
-              <li key={i} aria-hidden={i >= concepts.length} className="flex items-center gap-10">
-                {c}
-                <span className="size-1 rounded-full bg-accent/70" />
-              </li>
-            ))}
-          </ul>
-        </div>
-      </motion.div>
+        <span className="font-mono text-[10px] tracking-[0.25em] uppercase">Scroll</span>
+        <span aria-hidden="true" className="relative h-10 w-px overflow-hidden bg-line-strong">
+          <span className="absolute inset-x-0 top-0 h-1/2 bg-gradient-to-b from-transparent to-accent [animation:scroll-cue_2s_cubic-bezier(0.65,0,0.35,1)_infinite] motion-reduce:hidden" />
+        </span>
+      </a>
     </section>
   )
 }
