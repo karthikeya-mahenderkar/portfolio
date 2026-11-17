@@ -194,7 +194,7 @@ function ProjectRow({ project, flip, isOpen, onOpen }: { project: Project; flip:
 }
 
 /** Full-screen case study; the demo frame flies in from the row via a shared layoutId. */
-function CaseStudy({ project, onClose }: { project: Project; onClose: () => void }) {
+function CaseStudy({ project, onClose, fromLink = false }: { project: Project; onClose: () => void; fromLink?: boolean }) {
   const closeRef = useRef<HTMLButtonElement>(null)
   const titleId = `${project.id}-case-title`
 
@@ -256,7 +256,13 @@ function CaseStudy({ project, onClose }: { project: Project; onClose: () => void
             </button>
           </motion.div>
 
-          <motion.div layoutId={`frame-${project.id}`} transition={LAYOUT_SPRING} style={{ borderRadius: 16 }} className="relative">
+          <motion.div
+            layoutId={fromLink ? undefined : `frame-${project.id}`}
+            transition={LAYOUT_SPRING}
+            style={{ borderRadius: 16 }}
+            {...(fromLink && { initial: { opacity: 0, y: 24, scale: 0.98 }, animate: { opacity: 1, y: 0, scale: 1 } })}
+            className="relative"
+          >
             <PreviewFrame project={project} />
           </motion.div>
 
@@ -301,19 +307,58 @@ function CaseStudy({ project, onClose }: { project: Project; onClose: () => void
   )
 }
 
+const CASE_PREFIX = '#case-'
+const caseFromHash = () => {
+  const h = window.location.hash
+  if (!h.startsWith(CASE_PREFIX)) return null
+  const id = h.slice(CASE_PREFIX.length)
+  return projects.some((p) => p.id === id) ? id : null
+}
+
 export function Projects() {
-  const [openId, setOpenId] = useState<string | null>(null)
-  const returnFocus = useRef<HTMLElement | null>(null)
+  // A case study shared by link opens instantly (no fly-in from an offscreen row).
+  const [openId, setOpenId] = useState<string | null>(() => (typeof window === 'undefined' ? null : caseFromHash()))
+  const [fromLink, setFromLink] = useState(() => openId !== null)
+  const pushedState = useRef(false)
   const openProject = projects.find((p) => p.id === openId) ?? null
 
+  // Browser back/forward opens and closes case studies.
+  useEffect(() => {
+    const onPop = () => {
+      pushedState.current = false
+      setFromLink(false)
+      setOpenId(caseFromHash())
+    }
+    window.addEventListener('popstate', onPop)
+    return () => window.removeEventListener('popstate', onPop)
+  }, [])
+
+  // Return focus to the project's "Open case study" button after closing.
+  const wasOpen = useRef(openId)
+  useEffect(() => {
+    if (wasOpen.current && !openId) {
+      const id = wasOpen.current
+      window.setTimeout(() => document.querySelector<HTMLElement>(`#${id} button[aria-haspopup="dialog"]:not([aria-label])`)?.focus({ preventScroll: true }), 0)
+    }
+    wasOpen.current = openId
+  }, [openId])
+
   const onOpen = useCallback((id: string) => {
-    // Return focus to the project's "Open case study" button, however it was opened.
-    returnFocus.current = document.querySelector<HTMLElement>(`#${id} button[aria-haspopup="dialog"]:not([aria-label])`)
+    window.history.pushState({ caseStudy: id }, '', `${CASE_PREFIX}${id}`)
+    pushedState.current = true
+    setFromLink(false)
     setOpenId(id)
   }, [])
+
   const onClose = useCallback(() => {
-    setOpenId(null)
-    window.setTimeout(() => returnFocus.current?.focus({ preventScroll: true }), 0)
+    if (pushedState.current) {
+      // we added the history entry, so stepping back closes it (via popstate)
+      window.history.back()
+    } else {
+      // opened from a shared link: just drop the hash
+      window.history.replaceState(null, '', window.location.pathname + window.location.search)
+      setOpenId(null)
+    }
   }, [])
 
   return (
@@ -336,7 +381,7 @@ export function Projects() {
               <ProjectRow key={p.id} project={p} flip={i % 2 === 1} isOpen={openId === p.id} onOpen={onOpen} />
             ))}
           </div>
-          <AnimatePresence>{openProject && <CaseStudy key={openProject.id} project={openProject} onClose={onClose} />}</AnimatePresence>
+          <AnimatePresence>{openProject && <CaseStudy key={openProject.id} project={openProject} onClose={onClose} fromLink={fromLink} />}</AnimatePresence>
         </LayoutGroup>
       </div>
     </section>
