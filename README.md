@@ -1,5 +1,7 @@
 # Karthikeya Mahenderkar — Portfolio
 
+**Live:** https://karthikeya-mahenderkar.vercel.app
+
 React 19 · TypeScript · Vite · Tailwind CSS v4 · Motion · Lucide
 
 ## Run
@@ -32,5 +34,6 @@ public/         resume PDF, favicon, OG image
 ```
 
 ## Deploy
-Static site — deploy `dist/` to Vercel, Netlify, Cloudflare Pages or GitHub Pages.
-After deploying, set absolute URLs for `og:image` / `twitter:image` in `index.html` (e.g. `https://your-domain/og-image.png`) so link previews work everywhere.
+Hosted on Vercel. Redeploy from this folder with `npx vercel deploy --prod`
+(or connect the GitHub repo in the Vercel dashboard for automatic deploys on push).
+If the domain changes, update the absolute URLs in `index.html`, `public/robots.txt` and `public/sitemap.xml`.

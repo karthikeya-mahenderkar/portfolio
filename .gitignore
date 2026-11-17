@@ -5,3 +5,5 @@ dist
 
 # original full-size photo (the site uses optimised copies in public/images)
 Karthikeya_mahenderkar.PNG
+.vercel
+.env*
