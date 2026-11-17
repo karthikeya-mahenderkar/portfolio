@@ -86,7 +86,7 @@ export const skillGroups: SkillGroup[] = [
     blurb: 'Dashboards and interfaces.',
     icon: 'layout',
     core: ['HTML', 'CSS'],
-    applied: ['React', 'Vite'],
+    applied: ['React', 'Next.js', 'Vite'],
   },
   {
     title: 'Databases',
@@ -100,13 +100,14 @@ export const skillGroups: SkillGroup[] = [
     blurb: 'Build, version and ship.',
     icon: 'wrench',
     core: ['Git', 'GitHub', 'Maven', 'Jupyter Notebook', 'Claude Code', 'GitHub Copilot', 'Gemini CLI'],
+    applied: ['Docker', 'Vitest'],
   },
   {
     title: 'Data & Other',
     blurb: 'Analysis and supporting libraries.',
     icon: 'sparkles',
     core: ['NumPy', 'Pandas', 'Matplotlib'],
-    applied: ['ZXing', 'Twelve Data API', 'RSA / AES-GCM'],
+    applied: ['ZXing', 'Recharts', 'RSA / AES-GCM'],
   },
 ]
 
@@ -141,14 +142,14 @@ export const projects: Project[] = [
     problem:
       'When many buyers hit the same event inventory at once, naive implementations sell more tickets than exist. Gate staff also need a fast, reliable way to verify tickets and reject duplicate entries.',
     contribution:
-      'Designed and built the system end to end: backend architecture, concurrency control, auth and RBAC, QR verification, and the React staff dashboard.',
+      'Built the Spring Boot backend by following a published, step-by-step architecture guide, implementing each layer myself: REST endpoints, transactional ticket inventory with pessimistic locking, Keycloak/JWT security and QR validation. Ran it with PostgreSQL and Keycloak in Docker, against the provided React frontend.',
     features: [
       'Overselling prevented under concurrent purchases using PostgreSQL pessimistic locking and transactional inventory updates',
       'Role-based access control with Keycloak, JWT authorization and token-claim-based user provisioning (ORGANIZER / STAFF)',
       'QR-based ticket verification with ZXing, supporting QR and manual validation with duplicate-entry prevention',
-      'React + Vite dashboard for staff to perform fast ticket checks',
+      'Works with a React + Vite frontend covering organizer, attendee and staff ticket-check flows',
     ],
-    stack: ['Java', 'Spring Boot', 'PostgreSQL', 'Keycloak', 'JWT', 'ZXing', 'React', 'Vite'],
+    stack: ['Java', 'Spring Boot', 'PostgreSQL', 'Keycloak', 'JWT', 'ZXing', 'Docker', 'React'],
     visual: 'ticketing',
     guarantee: 'No overselling under concurrency',
     links: { github: 'https://github.com/karthikeya-mahenderkar/event-ticketing-platform', live: null },
@@ -159,7 +160,7 @@ export const projects: Project[] = [
     name: 'Real-Time Stock Metrics Tracker',
     tagline: 'Live market surveillance and analytics',
     summary:
-      'A real-time market-monitoring platform that ingests, stores and visualizes live and historical stock data through an interactive analytics dashboard.',
+      'A real-time monitor for Indian (NSE) stocks that ingests, stores and visualizes live and historical market data, flagging 52-week breakouts and volume spikes on an interactive analytics dashboard.',
     problem:
       'Spotting 52-week breakouts and abnormal volume spikes by hand is slow and error-prone. The ingestion pipeline also has to stay testable and independent of any single market-data provider.',
     contribution:
@@ -167,10 +168,10 @@ export const projects: Project[] = [
     features: [
       'Background ingestion pipeline with a rule-based engine for 52-week high/low breakouts and abnormal-volume spikes',
       'Crossing-based and once-per-day triggers for automated market surveillance',
-      'Pluggable market-data layer (Twelve Data API, mock providers) with Zod schema validation for reliable data contracts',
-      'REST APIs, Server-Sent Events and an event bus streaming live events to KPI, sector, historical and intraday views',
+      'Pluggable market-data layer (Yahoo Finance for live NSE data, a deterministic mock provider for demos) with Zod validation on every external payload',
+      'REST APIs, Server-Sent Events and an event bus streaming live events to KPI, sector, historical and intraday views, backed by 42 Vitest unit tests',
     ],
-    stack: ['React', 'TypeScript', 'Prisma', 'SQLite', 'SSE', 'Zod', 'Twelve Data API'],
+    stack: ['Next.js', 'React', 'TypeScript', 'Prisma', 'SQLite', 'SSE', 'Zod', 'Recharts', 'Vitest'],
     visual: 'stocks',
     guarantee: 'Live events streamed via SSE',
     links: { github: 'https://github.com/karthikeya-mahenderkar/stocks-metrics-tracker', live: null },
