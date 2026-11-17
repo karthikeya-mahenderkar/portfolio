@@ -8,7 +8,7 @@
  *  nothing fake is ever shown. Fill these in when you have them:
  *    - profile.links.github
  *    - profile.links.leetcode
- *    - projects[*].links.github / .live
+ *    - projects[*].links.live (no live demos yet)
  * ─────────────────────────────────────────────────────────────
  */
 
@@ -151,7 +151,7 @@ export const projects: Project[] = [
     stack: ['Java', 'Spring Boot', 'PostgreSQL', 'Keycloak', 'JWT', 'ZXing', 'React', 'Vite'],
     visual: 'ticketing',
     guarantee: 'No overselling under concurrency',
-    links: { github: null, live: null }, // TODO: add repo / demo URLs if available
+    links: { github: 'https://github.com/karthikeya-mahenderkar/event-ticketing-platform', live: null },
   },
   {
     id: 'stock-metrics',
@@ -173,7 +173,7 @@ export const projects: Project[] = [
     stack: ['React', 'TypeScript', 'Prisma', 'SQLite', 'SSE', 'Zod', 'Twelve Data API'],
     visual: 'stocks',
     guarantee: 'Live events streamed via SSE',
-    links: { github: null, live: null }, // TODO
+    links: { github: 'https://github.com/karthikeya-mahenderkar/stocks-metrics-tracker', live: null },
   },
   {
     id: 'upi-offline-mesh',
@@ -195,7 +195,7 @@ export const projects: Project[] = [
     stack: ['Java', 'Spring Boot', 'Spring Data JPA', 'Hibernate', 'H2', 'Thymeleaf', 'RSA / AES-GCM'],
     visual: 'mesh',
     guarantee: 'Exactly-once settlement',
-    links: { github: null, live: null }, // TODO
+    links: { github: 'https://github.com/karthikeya-mahenderkar/mesh-pay', live: null },
   },
 ]
 
