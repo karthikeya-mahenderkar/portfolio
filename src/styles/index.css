@@ -1,0 +1,214 @@
+@import 'tailwindcss';
+@import 'lenis/dist/lenis.css';
+
+@custom-variant dark (&:where([data-theme='dark'], [data-theme='dark'] *));
+
+/* ── Design tokens ─────────────────────────────────────────── */
+:root {
+  /* light */
+  --bg: #f6f4ef;
+  --bg-elev: #ffffff;
+  --bg-sunk: #ece9e2;
+  --fg: #141311;
+  --fg-muted: #5c5850;
+  --fg-subtle: #6f6a60;
+  --line: rgb(20 19 17 / 0.09);
+  --line-strong: rgb(20 19 17 / 0.18);
+  --accent: #d9480f;
+  --accent-soft: rgb(217 72 15 / 0.1);
+  --accent-fg: #fff;
+  --cool: #0f766e;
+  --grid: rgb(20 19 17 / 0.05);
+  --shadow: 0 1px 0 rgb(255 255 255 / 0.6) inset, 0 20px 40px -24px rgb(20 19 17 / 0.25);
+  color-scheme: light;
+}
+
+[data-theme='dark'] {
+  --bg: #0b0b0a;
+  --bg-elev: #131311;
+  --bg-sunk: #080807;
+  --fg: #f1ede4;
+  --fg-muted: #a39e92;
+  --fg-subtle: #8a857a;
+  --line: rgb(241 237 228 / 0.08);
+  --line-strong: rgb(241 237 228 / 0.16);
+  --accent: #ff7a3d;
+  --accent-soft: rgb(255 122 61 / 0.12);
+  --accent-fg: #160a04;
+  --cool: #5eead4;
+  --grid: rgb(241 237 228 / 0.035);
+  --shadow: 0 1px 0 rgb(255 255 255 / 0.04) inset, 0 30px 60px -30px rgb(0 0 0 / 0.8);
+  color-scheme: dark;
+}
+
+@theme inline {
+  --color-bg: var(--bg);
+  --color-elev: var(--bg-elev);
+  --color-sunk: var(--bg-sunk);
+  --color-fg: var(--fg);
+  --color-muted: var(--fg-muted);
+  --color-subtle: var(--fg-subtle);
+  --color-line: var(--line);
+  --color-line-strong: var(--line-strong);
+  --color-accent: var(--accent);
+  --color-accent-soft: var(--accent-soft);
+  --color-accent-fg: var(--accent-fg);
+  --color-cool: var(--cool);
+
+  --font-sans: 'Inter Tight Variable', ui-sans-serif, system-ui, sans-serif;
+  --font-serif: 'Instrument Serif', ui-serif, Georgia, serif;
+  --font-mono: 'JetBrains Mono Variable', ui-monospace, SFMono-Regular, monospace;
+
+  --shadow-card: var(--shadow);
+}
+
+/* ── Base ──────────────────────────────────────────────────── */
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+  html.lenis {
+    scroll-behavior: auto;
+  }
+  html {
+    scroll-padding-top: 5rem;
+    -webkit-text-size-adjust: 100%;
+    overflow-x: clip;
+  }
+  body {
+    background: var(--bg);
+    color: var(--fg);
+    font-family: var(--font-sans);
+    font-feature-settings: 'ss01', 'cv11';
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    overflow-x: clip;
+  }
+  ::selection {
+    background: var(--accent);
+    color: var(--accent-fg);
+  }
+  :focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 3px;
+    border-radius: 6px;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.001ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.001ms !important;
+    }
+  }
+}
+
+/* ── Utilities ─────────────────────────────────────────────── */
+@utility container-page {
+  width: 100%;
+  max-width: 72rem;
+  margin-inline: auto;
+  padding-inline: 1.25rem;
+  @media (min-width: 640px) {
+    padding-inline: 2rem;
+  }
+}
+
+@utility bg-grid {
+  background-image:
+    linear-gradient(to right, var(--grid) 1px, transparent 1px),
+    linear-gradient(to bottom, var(--grid) 1px, transparent 1px);
+  background-size: 56px 56px;
+}
+
+@utility text-balance {
+  text-wrap: balance;
+}
+
+@utility grain {
+  position: relative;
+  &::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    opacity: 0.035;
+    mix-blend-mode: overlay;
+    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");
+  }
+}
+
+/* Circular theme reveal (View Transitions API) */
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation: none;
+  mix-blend-mode: normal;
+}
+
+/* Light-trail border: an ember highlight that orbits the card edge on hover */
+@property --trail-angle {
+  syntax: '<angle>';
+  inherits: false;
+  initial-value: 0deg;
+}
+
+@utility glow-border {
+  position: relative;
+  &::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: 2;
+    border-radius: inherit;
+    padding: 1px;
+    pointer-events: none;
+    background: conic-gradient(
+      from var(--trail-angle),
+      transparent 0deg 250deg,
+      color-mix(in oklab, var(--accent) 35%, transparent) 290deg,
+      var(--accent) 335deg,
+      transparent 360deg
+    );
+    -webkit-mask:
+      linear-gradient(#000 0 0) content-box,
+      linear-gradient(#000 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+    opacity: 0;
+    transition: opacity 0.45s ease;
+    animation: trail-spin 3.2s linear infinite paused;
+  }
+  &:hover::after,
+  &:focus-within::after {
+    opacity: 1;
+    animation-play-state: running;
+  }
+}
+
+@keyframes trail-spin {
+  to {
+    --trail-angle: 360deg;
+  }
+}
+
+@keyframes marquee {
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+@keyframes pulse-dot {
+  0%,
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.4;
+    transform: scale(0.85);
+  }
+}

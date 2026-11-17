@@ -1,0 +1,7 @@
+node_modules
+dist
+*.local
+.DS_Store
+
+# original full-size photo (the site uses optimised copies in public/images)
+Karthikeya_mahenderkar.PNG
