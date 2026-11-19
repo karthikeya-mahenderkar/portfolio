@@ -142,14 +142,15 @@ export const projects: Project[] = [
     problem:
       'When many buyers hit the same event inventory at once, naive implementations sell more tickets than exist. Gate staff also need a fast, reliable way to verify tickets and reject duplicate entries.',
     contribution:
-      'Built the Spring Boot backend by following a published, step-by-step architecture guide, implementing each layer myself: REST endpoints, transactional ticket inventory with pessimistic locking, Keycloak/JWT security and QR validation. Ran it with PostgreSQL and Keycloak in Docker, against the provided React frontend.',
+      'Started from a public tutorial, then made it concurrency-safe: replaced lock-and-count inventory with an atomic conditional UPDATE, added idempotent purchases, fixed a double-admission race in ticket validation, and wrote concurrency tests that prove each guarantee. Runs with PostgreSQL and Keycloak in Docker.',
     features: [
-      'Overselling prevented under concurrent purchases using PostgreSQL pessimistic locking and transactional inventory updates',
-      'Role-based access control with Keycloak, JWT authorization and token-claim-based user provisioning (ORGANIZER / STAFF)',
-      'QR-based ticket verification with ZXing, supporting QR and manual validation with duplicate-entry prevention',
-      'Works with a React + Vite frontend covering organizer, attendee and staff ticket-check flows',
+      'No overselling: inventory is reserved with one atomic conditional UPDATE (sold < total), so concurrent buyers can never exceed capacity',
+      'Idempotent purchases: an Idempotency-Key header backed by a unique constraint, so a retried request never buys a second ticket',
+      'Race-free validation: a row lock plus a fresh re-check, so simultaneous QR scans admit a ticket exactly once',
+      'Concurrency tests firing real simultaneous requests: 20 buyers for 5 tickets, 5 racing retries, 10 simultaneous scans',
+      'Role-based access with Keycloak/JWT (ORGANIZER / STAFF) and ZXing QR tickets with QR or manual validation',
     ],
-    stack: ['Java', 'Spring Boot', 'PostgreSQL', 'Keycloak', 'JWT', 'ZXing', 'Docker', 'React'],
+    stack: ['Java', 'Spring Boot', 'PostgreSQL', 'Keycloak', 'JWT', 'ZXing', 'JUnit', 'Docker'],
     visual: 'ticketing',
     guarantee: 'No overselling under concurrency',
     links: { github: 'https://github.com/karthikeya-mahenderkar/event-ticketing-platform', live: null },

@@ -173,7 +173,7 @@ function TicketingDemo() {
       log.push('A + B → POST /tickets   (1 seat left)')
       at(750, () => {
         setStep(2)
-        log.push('A: SELECT … FOR UPDATE → row locked · B waits', 'muted')
+        log.push('A: UPDATE … WHERE sold < total → reserved · B waits', 'muted')
       })
       at(1550, () => {
         setStep(3)
@@ -182,7 +182,7 @@ function TicketingDemo() {
       })
       at(2350, () => {
         setStep(4)
-        log.push('B: lock released, stock = 0 → 409 Sold out', 'bad')
+        log.push('B: re-checks sold < total → 0 rows → 409 Sold out', 'bad')
       })
     } else {
       log.push('A + B → POST /tickets   (locking OFF)')
@@ -228,7 +228,7 @@ function TicketingDemo() {
           : { text: 'CONSISTENT ✓', bg: 'fill-accent-soft', fg: 'fill-accent' }
 
   const svg = (
-    <svg viewBox="0 0 400 260" className="size-full" role="img" aria-label="Interactive demo: two buyers race for the last seat; pessimistic locking decides who gets it">
+    <svg viewBox="0 0 400 260" className="size-full" role="img" aria-label="Interactive demo: two buyers race for the last seat; an atomic inventory update decides who gets it">
       <text x={GRID.x} y="34" className="fill-subtle font-mono text-[10.5px]">EVENT · LAST SEAT</text>
       <g transform={`translate(${GRID.x + 114} 23)`}>
         <rect width="62" height="16" rx="8" className={locking ? 'fill-accent-soft' : 'fill-red-500/15'} />
