@@ -145,6 +145,10 @@ export type Project = {
   visual: ProjectVisual
   /** The one hard guarantee the project is built around — shown on the preview */
   guarantee: string
+  /** Request / data flow, left to right, shown as a diagram in the case study. */
+  architecture: { label: string; detail: string }[]
+  /** The few lines that matter, copied from the repository (omissions marked "// …"). */
+  code: { file: string; language: 'java' | 'ts'; snippet: string; note: string }
   links: { github: string | null; live: string | null }
 }
 
@@ -170,6 +174,31 @@ export const projects: Project[] = [
     stack: ['Java', 'Spring Boot', 'PostgreSQL', 'Keycloak', 'JWT', 'ZXing', 'JUnit', 'Docker'],
     visual: 'ticketing',
     guarantee: 'No overselling under concurrency',
+    architecture: [
+      { label: 'React client', detail: 'purchase & scan requests' },
+      { label: 'Spring Security', detail: 'Keycloak JWT · ORGANIZER / STAFF' },
+      { label: 'Service layer', detail: '@Transactional purchase & validation' },
+      { label: 'PostgreSQL', detail: 'atomic UPDATE · unique keys · row locks' },
+    ],
+    code: {
+      file: 'backend/…/repositories/TicketTypeRepository.java',
+      language: 'java',
+      snippet: `@Modifying
+@Query("""
+    UPDATE TicketType tt
+       SET tt.soldCount = tt.soldCount + 1
+     WHERE tt.id = :id
+       AND tt.soldCount < tt.totalAvailable
+    """)
+int reserveTicket(@Param("id") UUID id);
+
+// TicketTypeServiceImpl#purchaseTicket
+if (ticketTypeRepository.reserveTicket(ticketTypeId) == 0) {
+  // …
+  throw new TicketsSoldOutException();
+}`,
+      note: 'The check and the increment are one statement, so two buyers can never both pass the check. Zero rows updated means sold out.',
+    },
     links: { github: 'https://github.com/karthikeya-mahenderkar/event-ticketing-platform', live: null },
   },
   {
@@ -192,6 +221,31 @@ export const projects: Project[] = [
     stack: ['Next.js', 'React', 'TypeScript', 'Prisma', 'SQLite', 'SSE', 'Zod', 'Recharts', 'Vitest'],
     visual: 'stocks',
     guarantee: 'Live events streamed via SSE',
+    architecture: [
+      { label: 'Market data', detail: 'Yahoo Finance or mock · Zod-validated' },
+      { label: 'Ingestion worker', detail: 'own process · polls every 30 s' },
+      { label: 'Detection engine', detail: 'pure detectEvents()' },
+      { label: 'SQLite (Prisma)', detail: 'MarketEvent rows' },
+      { label: 'SSE bridge', detail: 'one 2 s poll → event bus → browsers' },
+    ],
+    code: {
+      file: 'src/lib/market/detection/index.ts',
+      language: 'ts',
+      snippet: `// --- HIGH crossing ---
+const brokeHigh =
+  state.lastPrice < state.current52WeekHigh &&
+  quote.price >= state.current52WeekHigh
+
+if (brokeHigh) {
+  if (mode === 'CROSSING' || (mode === 'ONCE_PER_DAY' && !state.highTriggered)) {
+    events.push({
+      eventType: 'HIGH',
+      // …
+    })
+  }
+}`,
+      note: 'A pure function: the previous price and the current 52-week high go in, events come out. A breakout needs the price to move from below the high to at or above it; EVENT_MODE decides whether repeats fire.',
+    },
     links: { github: 'https://github.com/karthikeya-mahenderkar/stocks-metrics-tracker', live: null },
   },
   {
@@ -214,6 +268,37 @@ export const projects: Project[] = [
     stack: ['Java', 'Spring Boot', 'Spring Data JPA', 'Hibernate', 'H2', 'Thymeleaf', 'RSA / AES-GCM'],
     visual: 'mesh',
     guarantee: 'Exactly-once settlement',
+    architecture: [
+      { label: 'Sender phone', detail: 'RSA-OAEP + AES-GCM packet' },
+      { label: 'Gossip mesh', detail: 'TTL-limited flooding (simulated)' },
+      { label: 'Bridge upload', detail: 'POST /api/bridge/ingest' },
+      { label: 'Idempotency gate', detail: 'SHA-256(ciphertext) · putIfAbsent' },
+      { label: 'Settlement', detail: '@Transactional debit/credit · @Version' },
+    ],
+    code: {
+      file: 'src/main/java/…/service/BridgeIngestionService.java',
+      language: 'java',
+      snippet: `String packetHash = crypto.hashCiphertext(packet.getCiphertext());
+
+// ---- Idempotency gate ----
+if (!idempotency.claim(packetHash)) {
+    // …
+    return IngestResult.duplicate(packetHash);
+}
+
+// ---- Decrypt ----
+try {
+    instruction = crypto.decrypt(packet.getCiphertext());
+} catch (Exception e) {
+    // …
+    return IngestResult.invalid(packetHash, "decryption_failed");
+}
+
+// IdempotencyService#claim
+Instant prev = seen.putIfAbsent(packetHash, now);
+return prev == null;`,
+      note: 'Duplicates are dropped before any decryption: the first bridge to claim the ciphertext hash wins atomically. A tampered packet fails the AES-GCM tag check and is rejected as INVALID.',
+    },
     links: { github: 'https://github.com/karthikeya-mahenderkar/mesh-pay', live: null },
   },
 ]

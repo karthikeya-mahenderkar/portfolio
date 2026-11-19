@@ -7,6 +7,7 @@ import { SectionHeading } from '@/components/SectionHeading'
 import { Badge } from '@/components/Badge'
 import { GithubIcon } from '@/components/BrandIcons'
 import { ProjectVisual } from '@/components/ProjectVisual'
+import { ArchitectureFlow, CodeBlock } from '@/components/CaseStudyExtras'
 import { cn } from '@/lib/cn'
 import { ScrambleText } from '@/components/ScrambleText'
 import { DrawLine } from '@/components/motion'
@@ -281,12 +282,30 @@ function CaseStudy({ project, onClose, fromLink = false }: { project: Project; o
             </div>
           </motion.div>
 
-          <motion.div {...content(0.46)} className="mt-10">
+          <motion.div {...content(0.44)} className="mt-10">
+            <p className="mb-4 font-mono text-[11px] tracking-wider text-subtle uppercase">Architecture</p>
+            <ArchitectureFlow steps={project.architecture} />
+          </motion.div>
+
+          <motion.div {...content(0.5)} className="mt-10">
+            <div className="mb-4 flex flex-wrap items-baseline justify-between gap-2">
+              <p className="font-mono text-[11px] tracking-wider text-subtle uppercase">Key code</p>
+              {project.links.github && (
+                <a href={project.links.github} target="_blank" rel="noopener noreferrer" className="font-mono text-[11px] text-subtle transition-colors hover:text-accent">
+                  view full source ↗
+                </a>
+              )}
+            </div>
+            <CodeBlock code={project.code} />
+            <p className="mt-3 text-[15px] leading-relaxed text-muted">{project.code.note}</p>
+          </motion.div>
+
+          <motion.div {...content(0.56)} className="mt-10">
             <p className="mb-4 font-mono text-[11px] tracking-wider text-subtle uppercase">Key engineering</p>
             <FeatureList items={project.features} animateIn />
           </motion.div>
 
-          <motion.div {...content(0.55)} className="mt-10 flex flex-col gap-5 border-t border-line pt-6 pb-6">
+          <motion.div {...content(0.62)} className="mt-10 flex flex-col gap-5 border-t border-line pt-6 pb-6">
             <ul className="flex flex-wrap gap-1.5" aria-label="Technologies used">
               {project.stack.map((s) => (
                 <li key={s}>
