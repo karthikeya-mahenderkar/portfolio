@@ -24,13 +24,6 @@ export const profile = {
   graduation: '2027',
   location: 'Hyderabad, India',
   email: 'karthikeyam1308@gmail.com',
-  photo: {
-    src: '/images/karthikeya-640.webp',
-    srcSet: '/images/karthikeya-480.webp 480w, /images/karthikeya-640.webp 640w',
-    width: 640,
-    height: 800,
-    alt: 'Portrait of Karthikeya Mahenderkar, smiling, wearing a black-and-white checked shirt',
-  },
   resumeUrl: '/Karthikeya-Mahenderkar-Resume.pdf',
   resumeFileName: 'Karthikeya-Mahenderkar-Resume.pdf',
   links: {
@@ -41,10 +34,37 @@ export const profile = {
 }
 
 export const about = {
-  paragraphs: [
-    'I study Materials Science & Metallurgical Engineering at IIT Hyderabad (class of 2027), and most of my time goes into software engineering, especially backend systems.',
-    'I like problems where the obvious solution breaks in production: two buyers grabbing the last ticket at the same moment, a payment packet relayed through phones that can’t be trusted, a price feed that has to turn into live alerts without missing a breakout.',
-    'My approach is to model the failure first. I work out where state can race, duplicate, or be tampered with, then design locking, idempotency, and validation around it. After that I build the interface on top.',
+  lead: 'I study Materials Science & Metallurgical Engineering at IIT Hyderabad (class of 2027), and most of my time goes into software engineering, especially backend systems.',
+  problemsIntro: 'I like problems where the obvious solution breaks in production.',
+  /** Each problem links to the project that solves it (project ids below). */
+  problems: [
+    {
+      title: 'Two buyers, one ticket',
+      text: 'Both press buy on the last seat at the same moment. Exactly one can win.',
+      tag: 'Concurrency',
+      icon: 'ticket',
+      projectId: 'event-ticketing',
+    },
+    {
+      title: 'Relays you can’t trust',
+      text: 'A payment hops through strangers’ phones offline. It must arrive unread, untampered, and settle once.',
+      tag: 'Security · Idempotency',
+      icon: 'shield',
+      projectId: 'upi-offline-mesh',
+    },
+    {
+      title: 'Signals you can’t miss',
+      text: 'A live price feed has to become breakout alerts without dropping one or spamming the same one.',
+      tag: 'Real-time',
+      icon: 'activity',
+      projectId: 'stock-metrics',
+    },
+  ] as const,
+  /** My approach, in the order I actually work. */
+  approach: [
+    { title: 'Model the failure', text: 'Find where state can race, duplicate, or be tampered with.' },
+    { title: 'Design the guarantee', text: 'Put locking, idempotency, and validation around it.' },
+    { title: 'Build on top', text: 'Only then build the API and the interface.' },
   ],
   focus: [
     { label: 'Interests', value: 'Distributed systems, concurrency, API design, applied cryptography' },
