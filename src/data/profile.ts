@@ -23,10 +23,7 @@ export const profile = {
     'B.Tech student at IIT Hyderabad building concurrency-safe, real-time systems in Java and Spring Boot, with React and TypeScript on the frontend.',
   graduation: '2027',
   location: 'Hyderabad, India',
-  email: 'ms23btech11017@iith.ac.in',
-  /** Present on the resume but hidden on the public site for privacy. Set showPhone to true to display it. */
-  phone: '+91 7993951404',
-  showPhone: false,
+  email: 'karthikeyam1308@gmail.com',
   photo: {
     src: '/images/karthikeya-640.webp',
     srcSet: '/images/karthikeya-480.webp 480w, /images/karthikeya-640.webp 640w',

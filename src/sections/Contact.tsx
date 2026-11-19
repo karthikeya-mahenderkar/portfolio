@@ -157,11 +157,6 @@ export function Contact() {
               <a href={`mailto:${profile.email}`} className="mt-1 block text-lg font-medium break-all transition-colors hover:text-accent sm:text-xl">
                 {profile.email}
               </a>
-              {profile.showPhone && (
-                <a href={`tel:${profile.phone.replace(/\s/g, '')}`} className="mt-2 block font-mono text-sm text-muted hover:text-fg">
-                  {profile.phone}
-                </a>
-              )}
             </div>
 
             {channels.map(({ label, value, href, Icon }) => (

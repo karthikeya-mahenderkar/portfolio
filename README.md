@@ -18,7 +18,6 @@ All content lives in **`src/data/profile.ts`** — no copy is hard-coded in comp
 Placeholders (not on the resume, hidden until filled in):
 - `profile.links.leetcode`
 - `projects[*].links.github` / `projects[*].links.live`
-- `profile.showPhone` — phone is on the resume but hidden on the public site by default
 
 To update the resume, replace `public/Karthikeya-Mahenderkar-Resume.pdf` (keep the filename or update `profile.resumeUrl`).
 
