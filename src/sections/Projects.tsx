@@ -222,7 +222,7 @@ function CaseStudy({ project, onClose, fromLink = false }: { project: Project; o
       <motion.div
         key="backdrop"
         aria-hidden="true"
-        className="fixed inset-0 z-[90] bg-bg/85 backdrop-blur-md"
+        className="fixed inset-0 z-[90] bg-bg/70 backdrop-blur-2xl backdrop-saturate-150"
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         exit={{ opacity: 0, transition: { duration: 0.3 } }}
@@ -251,7 +251,7 @@ function CaseStudy({ project, onClose, fromLink = false }: { project: Project; o
               type="button"
               onClick={onClose}
               aria-label="Close case study"
-              className="grid size-11 shrink-0 place-items-center rounded-full border border-line-strong bg-elev text-muted transition-colors hover:border-fg/40 hover:text-fg"
+              className="liquid-glass relative grid size-11 shrink-0 place-items-center rounded-full text-muted transition-colors hover:text-fg"
             >
               <X className="size-4" />
             </button>

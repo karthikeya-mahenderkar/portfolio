@@ -15,7 +15,7 @@ function SubHeading({ children }: { children: string }) {
 
 function DetailsCard() {
   return (
-    <div className="glow-border overflow-hidden rounded-2xl border border-line bg-elev shadow-card">
+    <div className="glass glow-border overflow-hidden rounded-2xl border">
       <div className="flex flex-wrap items-center justify-between gap-3 border-b border-line px-6 py-4">
         <span className="inline-flex items-center gap-2 text-sm font-medium text-fg">
           <GraduationCap className="size-4 text-accent" aria-hidden="true" />
@@ -81,7 +81,7 @@ export function About() {
                   <Reveal delay={i * 0.08} className="h-full">
                     <a
                       href={`#${p.projectId}`}
-                      className="group glow-border flex h-full flex-col rounded-2xl border border-line bg-elev p-6 transition-all duration-300 hover:-translate-y-0.5 hover:border-line-strong hover:shadow-card"
+                      className="group glass glow-border flex h-full flex-col rounded-2xl border p-6 duration-300 hover:-translate-y-0.5"
                     >
                       <div className="mb-6 flex items-center justify-between gap-3">
                         <span className="grid size-10 place-items-center rounded-xl border border-line text-muted transition-colors duration-300 group-hover:border-accent/40 group-hover:text-accent">

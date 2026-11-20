@@ -43,7 +43,7 @@ function Field({
   textarea?: boolean
 } & InputHTMLAttributes<HTMLInputElement> & TextareaHTMLAttributes<HTMLTextAreaElement>) {
   const cls = cn(
-    'w-full rounded-xl border bg-bg px-4 text-[15px] text-fg placeholder:text-subtle transition-colors outline-none focus:border-accent focus-visible:outline-none',
+    'w-full rounded-xl border bg-bg/60 px-4 text-[15px] text-fg placeholder:text-subtle transition-colors outline-none focus:border-accent focus-visible:outline-none',
     error ? 'border-red-500/70' : 'border-line-strong',
     textarea ? 'min-h-36 resize-y py-3' : 'h-12',
   )
@@ -138,7 +138,7 @@ export function Contact() {
 
         <div className="grid gap-10 lg:grid-cols-12 lg:gap-14">
           <Reveal className="space-y-3 lg:col-span-5">
-            <div className="group glow-border rounded-2xl border border-line bg-elev p-6 transition-colors hover:border-line-strong">
+            <div className="group glass glow-border rounded-2xl border p-6">
               <div className="mb-6 flex items-center justify-between">
                 <span className="grid size-10 place-items-center rounded-xl bg-accent-soft text-accent">
                   <Mail className="size-[18px]" />
@@ -165,7 +165,7 @@ export function Contact() {
                 href={href}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="group glow-border flex items-center gap-4 rounded-2xl border border-line bg-elev p-5 transition-colors hover:border-line-strong"
+                className="group glass glow-border flex items-center gap-4 rounded-2xl border p-5"
               >
                 <span className="grid size-10 shrink-0 place-items-center rounded-xl border border-line text-muted transition-colors group-hover:text-fg">
                   <Icon className="size-[18px]" />
@@ -192,7 +192,7 @@ export function Contact() {
           </Reveal>
 
           <Reveal delay={0.08} className="lg:col-span-7">
-            <form noValidate onSubmit={onSubmit} className="h-full rounded-2xl border border-line bg-elev p-6 sm:p-8" aria-describedby="form-note">
+            <form noValidate onSubmit={onSubmit} className="glass relative h-full rounded-2xl border p-6 sm:p-8" aria-describedby="form-note">
               <div className="grid gap-5 sm:grid-cols-2">
                 <Field id="name" label="Name" placeholder="Your name" autoComplete="name" value={fields.name} onChange={update('name')} error={errors.name} />
                 <Field id="email" label="Email" type="email" placeholder="you@company.com" autoComplete="email" value={fields.email} onChange={update('email')} error={errors.email} />

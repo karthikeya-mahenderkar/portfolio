@@ -67,8 +67,8 @@ export default function CommandPalette({ open, onOpenChange, theme, onToggleThem
       onOpenChange={onOpenChange}
       label="Command menu"
       loop
-      overlayClassName="fixed inset-0 z-[80] bg-black/50 backdrop-blur-sm"
-      contentClassName="fixed top-[12vh] left-1/2 z-[81] w-[calc(100%-2rem)] max-w-xl -translate-x-1/2 overflow-hidden rounded-2xl border border-line-strong bg-elev shadow-2xl outline-none"
+      overlayClassName="fixed inset-0 z-[80] bg-black/30 backdrop-blur-[2px]"
+      contentClassName="fixed top-[12vh] left-1/2 z-[81] w-[calc(100%-2rem)] max-w-xl -translate-x-1/2 glass-thick overflow-hidden rounded-2xl border outline-none"
     >
       <div className="flex items-center gap-3 border-b border-line px-4">
         <span className="font-mono text-xs text-accent" aria-hidden="true">

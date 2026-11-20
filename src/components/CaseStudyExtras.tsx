@@ -10,7 +10,7 @@ export function ArchitectureFlow({ steps }: { steps: Project['architecture'] }) 
     <ol className="flex flex-col items-stretch gap-1.5 md:flex-row md:gap-1" aria-label="Architecture, in request order">
       {steps.map((s, i) => (
         <Fragment key={s.label}>
-          <li className="min-w-0 flex-1 rounded-xl border border-line bg-elev px-3.5 py-3 transition-colors hover:border-line-strong">
+          <li className="glass relative min-w-0 flex-1 rounded-xl border px-3.5 py-3">
             <span className="block font-mono text-[10px] tracking-wider text-accent">{String(i + 1).padStart(2, '0')}</span>
             <span className="mt-1 block text-sm leading-tight font-medium text-fg">{s.label}</span>
             <span className="mt-1 block font-mono text-[10.5px] leading-snug text-subtle">{s.detail}</span>

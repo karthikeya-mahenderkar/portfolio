@@ -31,7 +31,7 @@ export function Education() {
             <div className="relative">
               <span aria-hidden="true" className="absolute top-7 -left-9 size-[15px] rounded-full border-[3px] border-bg bg-accent ring-1 ring-accent sm:-left-12" />
               <Reveal>
-                <article className="group glow-border rounded-2xl border border-line bg-bg p-6 transition-colors duration-300 hover:border-line-strong sm:p-8">
+                <article className="group glass glow-border rounded-2xl border p-6 duration-300 sm:p-8">
                   <div className="flex flex-wrap items-center justify-between gap-3">
                     <span className="inline-flex items-center gap-2 rounded-full bg-accent-soft px-3 py-1 font-mono text-[11px] text-accent">
                       <GraduationCap className="size-3.5" /> Currently pursuing
@@ -56,7 +56,7 @@ export function Education() {
                 <p className="mb-3 font-mono text-[11px] tracking-wider text-subtle uppercase">Schooling</p>
                 <ul className="grid gap-3 sm:grid-cols-2">
                   {schooling.map((s) => (
-                    <li key={s.institution} className="rounded-xl border border-line bg-bg px-5 py-4 transition-colors duration-300 hover:border-line-strong">
+                    <li key={s.institution} className="glass relative rounded-xl border px-5 py-4 duration-300">
                       <div className="flex items-baseline justify-between gap-3">
                         <h3 className="font-medium tracking-tight">{s.institution}</h3>
                         <span className="shrink-0 font-mono text-[11px] text-subtle">{s.year}</span>
@@ -73,7 +73,7 @@ export function Education() {
           </div>
 
           <Reveal delay={0.12} className="lg:col-span-4">
-            <div className="rounded-2xl border border-line bg-bg p-7 transition-colors duration-300 hover:border-line-strong">
+            <div className="glass relative rounded-2xl border p-7 duration-300">
               <span className="mb-5 grid size-10 place-items-center rounded-xl bg-accent-soft text-accent">
                 <Sparkles className="size-[18px]" />
               </span>

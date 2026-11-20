@@ -65,7 +65,7 @@ export function Skills() {
                 <Reveal
                   delay={(i % 3) * 0.06}
                   className={cn(
-                    'group glow-border h-full rounded-2xl border border-line bg-bg p-6 transition-all duration-300 hover:-translate-y-0.5 hover:border-line-strong hover:shadow-card sm:p-7',
+                    'group glass glow-border h-full rounded-2xl border p-6 duration-300 hover:-translate-y-0.5 sm:p-7',
                     wide && 'lg:flex lg:items-center lg:gap-10',
                   )}
                 >

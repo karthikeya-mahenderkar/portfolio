@@ -20,7 +20,7 @@ const glance = [
 /** Compact "at a glance" card — gives the hero a right-hand focal point. */
 function NowCard() {
   return (
-    <div className="glow-border w-full overflow-hidden rounded-2xl border border-line bg-elev/80 shadow-card backdrop-blur-md lg:w-[25rem]">
+    <div className="glass glow-border w-full overflow-hidden rounded-2xl border lg:w-[25rem]">
       <div className="flex items-center justify-between border-b border-line px-5 py-3.5">
         <span className="font-mono text-[11px] tracking-wider text-subtle uppercase">At a glance</span>
         <span className="inline-flex items-center gap-2 font-mono text-[11px] text-accent">
@@ -80,7 +80,7 @@ export function Hero() {
 
       <div className="container-page relative z-10 flex flex-1 flex-col justify-center py-14 md:py-20">
         <motion.div {...rise(0.05)} className="mb-8 flex flex-wrap items-center gap-x-5 gap-y-3 font-mono text-xs text-muted">
-          <span className="inline-flex items-center gap-2 rounded-full border border-line bg-elev/70 px-3 py-1.5 backdrop-blur">
+          <span className="liquid-glass relative inline-flex items-center gap-2 rounded-full px-3 py-1.5">
             <span className="size-2 rounded-full bg-accent [animation:pulse-dot_2s_ease-in-out_infinite]" />
             Open to SDE opportunities · Class of {profile.graduation}
           </span>

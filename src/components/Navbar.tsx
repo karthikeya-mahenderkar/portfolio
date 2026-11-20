@@ -19,7 +19,6 @@ export function Navbar({ theme, onToggleTheme }: { theme: Theme; onToggleTheme: 
   const active = useActiveSection(sectionIds)
   const [open, setOpen] = useState(false)
   const [mac] = useState(isMac)
-  const pill = scrolled && !open
 
   // Lock scroll + close on Escape while the mobile menu is open.
   useEffect(() => {
@@ -36,24 +35,19 @@ export function Navbar({ theme, onToggleTheme }: { theme: Theme; onToggleTheme: 
   return (
     <>
     <header
-      className={cn(
-        'fixed inset-x-0 top-0 z-50 border-b transition-colors duration-300',
-        open ? 'border-line bg-bg' : 'border-transparent',
-      )}
+      className="pointer-events-none fixed inset-x-0 top-0 z-50 px-3 pt-2.5"
     >
       <a
         href="#main"
-        className="sr-only rounded-full bg-fg px-4 py-2 text-bg focus:not-sr-only focus:absolute focus:top-3 focus:left-3 focus:z-[70]"
+        className="pointer-events-auto sr-only rounded-full bg-fg px-4 py-2 text-bg focus:not-sr-only focus:absolute focus:top-3 focus:left-3 focus:z-[70]"
       >
         Skip to content
       </a>
       <nav
         aria-label="Primary"
         className={cn(
-          'mx-auto flex items-center justify-between gap-4 border transition-[width,max-width,height,margin,padding,background-color,border-color,box-shadow,border-radius] duration-500 ease-[cubic-bezier(0.22,1,0.36,1)]',
-          pill
-            ? 'mt-2.5 h-14 w-[calc(100%-1.5rem)] max-w-[66rem] rounded-full border-line bg-bg/70 pr-2 pl-3 shadow-card backdrop-blur-xl'
-            : 'h-16 w-full max-w-[72rem] rounded-none border-transparent px-5 sm:px-8',
+          'liquid-glass pointer-events-auto relative mx-auto flex h-14 w-full max-w-[66rem] items-center justify-between gap-4 rounded-full pr-2 pl-3',
+          scrolled && 'is-scrolled',
         )}
       >
         <a href="#home" className="group flex items-center gap-2.5" aria-label={`${profile.name} — home`}>
@@ -64,7 +58,7 @@ export function Navbar({ theme, onToggleTheme }: { theme: Theme; onToggleTheme: 
           <span className="hidden text-sm font-medium tracking-tight sm:block">{profile.name}</span>
         </a>
 
-        <ul className={cn('hidden items-center gap-1 rounded-full border p-1 transition-colors duration-500 lg:flex', pill ? 'border-transparent bg-transparent' : 'border-line bg-elev/60')}>
+        <ul className="hidden items-center gap-1 lg:flex">
           {navItems.map((item) => (
             <li key={item.id}>
               <a
@@ -134,7 +128,7 @@ export function Navbar({ theme, onToggleTheme }: { theme: Theme; onToggleTheme: 
             exit={{ opacity: 0 }}
             transition={{ duration: 0.2 }}
             data-lenis-prevent
-            className="fixed inset-x-0 top-16 bottom-0 z-40 overflow-y-auto bg-bg lg:hidden"
+            className="glass-thick fixed inset-0 z-40 overflow-y-auto pt-16 lg:hidden"
           >
             <div className="container-page flex h-full flex-col justify-between pt-8 pb-10">
               <ul className="space-y-1">

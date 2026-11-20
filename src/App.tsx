@@ -20,6 +20,11 @@ export default function App() {
 
   return (
     <MotionConfig reducedMotion="user">
+      <div className="ambient" aria-hidden="true">
+        <span />
+        <span />
+        <span />
+      </div>
       <Navbar theme={theme} onToggleTheme={toggle} />
       <main id="main" tabIndex={-1} className="outline-none">
         <Hero />
@@ -37,7 +42,7 @@ export default function App() {
         offset={24}
         toastOptions={{
           classNames: {
-            toast: '!rounded-xl !border !border-line-strong !bg-elev !text-fg !shadow-card !font-sans',
+            toast: 'glass-thick !rounded-xl !border !text-fg !font-sans',
             description: '!text-muted !font-mono !text-[11px]',
             icon: '!text-accent',
           },
